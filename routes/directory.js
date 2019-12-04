@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-function getFiles(source){
+function getFiles(source,res){
 	let files = fs.readdirSync(source), 
-		result = [];
+		result = res;
 	for(file of files){
 		let dirName = `${source}/${file}`;
 		if(fs.statSync(dirName).isDirectory()){
-			result = [...getFiles(dirName)];
+			getFiles(dirName,result)
 		}else{
 			result.push(dirName.toLowerCase());
 		}
@@ -18,9 +18,8 @@ function getFiles(source){
 
 router.post('/compare', function compare(req, res) {	
 try{
-	let fromDirectoryFiles = getFiles(req.body.fromDirectory);
-	let toDirectoryFiles = getFiles(req.body.toDirectory);
-
+	let fromDirectoryFiles = getFiles(req.body.fromDirectory,[]);
+	let toDirectoryFiles = getFiles(req.body.toDirectory,[]);
 	let result = [], f;
 	for(let i=0; i < fromDirectoryFiles.length; i++){
 		f=0;
