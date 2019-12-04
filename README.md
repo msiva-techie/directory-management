@@ -1,5 +1,5 @@
 # Directory Management
-Folder comparision and file deletion APIs
+Folder comparision and file deletion APIs using node.js
 
 ### Example
 
@@ -45,3 +45,5 @@ curl -X POST \
         "path": "/home/siva/Desktop/test1.txt"
     }
 }
+
+### Run this project using npm run start
